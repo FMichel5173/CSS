@@ -1,23 +1,43 @@
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
-const NavBar = ({ heroes, setHeroIndex }) => {
+const NavButton = styled.button`
+  width: 25rem;
+  padding: 1rem;
+  background-color: lightskyblue;
+  color: black;
+  border: 1px solid lightskyblue;
+  box-shadow: 0px 0px 25px gray;
+  border-radius: 15px;
+  font-size: 2rem;
+  text-shadow: 1px 1px 15px white;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 4rem;
+`;
+
+const NavBar = ({ heroes, setCurrentHero }) => {
+  const sortedHeroes = [...heroes].sort((a, b) => a.name.localeCompare(b.name));
   return (
-    <div>
-      {heroes.map((hero, index) => (
-        <button key={hero.name} onClick={() => setHeroIndex(index)}>
+    <Container>
+      {sortedHeroes.map((hero) => (
+        <NavButton key={hero.name} onClick={() => setCurrentHero(hero)}>
           {hero.name}
-        </button>
+        </NavButton>
       ))}
-    </div>
+    </Container>
   );
 };
 
 NavBar.propTypes = {
-  setHeroIndex: PropTypes.func.isRequired,
+  setCurrentHero: PropTypes.func.isRequired,
   heroes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      imgSrc: PropTypes.string,
     })
   ).isRequired,
 };
